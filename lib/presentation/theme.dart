@@ -7,6 +7,12 @@ ThemeData theme() => ThemeData.light().copyWith(
             color: Colors.green[800],
             iconTheme: ThemeData.dark().iconTheme,
             systemOverlayStyle: SystemUiOverlayStyle.light,
+            titleTextStyle: const TextStyle(
+              color: Colors.white,
+              fontFamily: 'Arial',
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
           ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: Colors.blue[900],

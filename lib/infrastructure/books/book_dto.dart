@@ -12,7 +12,7 @@ class ResponseBookDto {
 
   factory ResponseBookDto.fromJson(Map<String, dynamic> json) =>
       ResponseBookDto._(
-        total: json['total'] as int,
+        total: int.parse(json['total'] as String),
         books: (json['books'] as List).map((e) => BookDto.fromJson(e)).toList(),
       );
 }

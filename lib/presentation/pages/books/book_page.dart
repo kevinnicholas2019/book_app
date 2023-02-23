@@ -1,4 +1,6 @@
 import 'package:book_app/application/books/book_bloc.dart';
+import 'package:book_app/presentation/pages/books/widget/book_widget.dart';
+import 'package:breakpoint/breakpoint.dart';
 import 'package:easy_search_bar/easy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,28 +28,62 @@ class BookPage extends StatelessWidget {
             case BookLoadInProgress:
               EasyLoading.show(status: 'loading...');
               break;
+            case BookLoadFailure:
+              EasyLoading.dismiss();
+              return Center(
+                child: TextButton(
+                  style: ButtonStyle(
+                    iconColor: MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.green),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    ),
+                  ),
+                  onPressed: () {
+                    _bookBloc.add(BookNewLoaded());
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text(
+                        'Retry',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 2,
+                      ),
+                      Icon(Icons.refresh),
+                    ],
+                  ),
+                ),
+              );
             case BookLoadSuccess:
               EasyLoading.dismiss();
               break;
           }
-          return Scrollable(
-            viewportBuilder: (_, position) {
-              return GridView.count(
-                primary: false,
-                padding: const EdgeInsets.all(20),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 2,
-                children: state.books
-                    .map(
-                      (e) => Container(
-                        child: Text(e.title.value),
-                      ),
-                    )
-                    .toList(),
-              );
-            },
-          );
+
+          return LayoutBuilder(builder: (_, constraints) {
+            final breakpoint = Breakpoint.fromConstraints(constraints);
+            return Container(
+              padding: EdgeInsets.all(breakpoint.gutters),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: (breakpoint.columns / 6).ceil() + 1,
+                  crossAxisSpacing: breakpoint.gutters,
+                  mainAxisSpacing: breakpoint.gutters,
+                  mainAxisExtent: 375,
+                ),
+                itemCount: state.books.length,
+                itemBuilder: (_, index) {
+                  return BookWidget(book: state.books[index]);
+                },
+              ),
+            );
+          });
         },
       ),
     );
