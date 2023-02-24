@@ -1,4 +1,5 @@
 import 'package:book_app/domain/books/book.dart';
+import 'package:book_app/presentation/pages/books/book_detail_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,16 @@ class BookWidget extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       autofocus: true,
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookDetailPageWidget(
+              book: _book,
+            ),
+          ),
+        );
+      },
       child: Ink(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -28,14 +38,16 @@ class BookWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 225,
-              child: CachedNetworkImage(
-                imageUrl: _book.imageUrl.value,
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
+            Center(
+              child: SizedBox(
+                height: 225,
+                child: CachedNetworkImage(
+                  imageUrl: _book.imageUrl.value,
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  fit: BoxFit.cover,
                 ),
-                fit: BoxFit.cover,
               ),
             ),
             Expanded(

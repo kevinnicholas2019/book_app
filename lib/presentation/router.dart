@@ -4,5 +4,5 @@ import 'package:flutter/material.dart';
 String initialRoute() => '/';
 
 Map<String, WidgetBuilder> routes() => <String, WidgetBuilder>{
-      '/': (context) => BookPage(),
+      '/': (context) => const BookPage(),
     };

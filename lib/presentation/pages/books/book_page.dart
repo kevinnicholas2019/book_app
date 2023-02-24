@@ -7,22 +7,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class BookPage extends StatelessWidget {
-  final BookBloc _bookBloc = BookBloc();
-
-  BookPage({super.key}) {
-    _bookBloc.add(BookNewLoaded());
-  }
+  const BookPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final bookBloc = BlocProvider.of<BookBloc>(context);
+    bookBloc.add(BookNewLoaded());
+
     return Scaffold(
       appBar: EasySearchBar(
         title: const Text('Book App'),
         onSearch: (p0) => "",
       ),
-      body: BlocConsumer<BookBloc, BookState>(
-        bloc: _bookBloc,
-        listener: (context, state) {},
+      body: BlocBuilder<BookBloc, BookState>(
+        bloc: bookBloc,
         builder: (context, state) {
           switch (state.runtimeType) {
             case BookLoadInProgress:
@@ -41,7 +39,7 @@ class BookPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    _bookBloc.add(BookNewLoaded());
+                    bookBloc.add(BookNewLoaded());
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

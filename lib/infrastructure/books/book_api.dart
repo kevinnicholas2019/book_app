@@ -65,7 +65,7 @@ class BookApi implements IBookRepository {
       final dio = Dio();
       final Response<Map<String, dynamic>> response =
           await dio.get(urls['getDetailBook']!.replaceAll("ISBN_PARAM", isbn));
-      return BookDetailDto.fromJson(response.data!).toDomain();
+      return BookDetailDto.fromJson(response.data!).toDomainAsBookDetail();
     } on Exception catch (e) {
       if (kDebugMode) {
         print("Error: ${e.toString()}");

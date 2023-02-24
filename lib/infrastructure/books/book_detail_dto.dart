@@ -1,3 +1,4 @@
+import 'package:book_app/domain/books/book.dart';
 import 'package:book_app/domain/books/book_detail.dart';
 import 'package:book_app/domain/books/value_objects.dart';
 import 'package:book_app/infrastructure/books/book_dto.dart';
@@ -46,8 +47,15 @@ class BookDetailDto extends BookDto {
         url: json['url'] as String,
       );
 
-  @override
-  BookDetail toDomain() => BookDetail(
+  BookDetail toDomainAsBookDetail() => BookDetail(
+        Book(
+          isbn13: Isbn13(isbn13),
+          title: Title(title),
+          subtitle: Subtitle(subtitle),
+          price: Price(price),
+          imageUrl: ImageUrl(image),
+          url: Url(url),
+        ),
         error: Error(error),
         authors: authors.split(",").map((e) => Author(e)).toList(),
         publisher: Publisher(publisher),
@@ -56,11 +64,5 @@ class BookDetailDto extends BookDto {
         year: Year(year),
         rating: Rating(rating),
         description: Description(description),
-        isbn13: Isbn13(isbn13),
-        title: Title(title),
-        subtitle: Subtitle(subtitle),
-        price: Price(price),
-        imageUrl: ImageUrl(image),
-        url: Url(url),
       );
 }

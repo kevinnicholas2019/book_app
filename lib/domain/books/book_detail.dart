@@ -1,8 +1,10 @@
 import 'package:book_app/domain/books/book.dart';
 import 'package:book_app/domain/books/value_objects.dart';
 import 'package:book_app/domain/core/i_entities.dart';
+import 'package:book_app/domain/core/i_unique_id.dart';
 
-class BookDetail extends Book implements IEntities {
+class BookDetail implements IEntities {
+  final Book book;
   final Error error;
   final List<Author> authors;
   final Publisher publisher;
@@ -12,7 +14,8 @@ class BookDetail extends Book implements IEntities {
   final Rating rating;
   final Description description;
 
-  BookDetail({
+  BookDetail(
+    this.book, {
     required this.error,
     required this.authors,
     required this.publisher,
@@ -21,15 +24,10 @@ class BookDetail extends Book implements IEntities {
     required this.year,
     required this.rating,
     required this.description,
-    required super.isbn13,
-    required super.title,
-    required super.subtitle,
-    required super.price,
-    required super.imageUrl,
-    required super.url,
   });
 
-  factory BookDetail.empty() => BookDetail(
+  factory BookDetail.empty(Book book) => BookDetail(
+        book,
         error: Error(''),
         authors: [],
         publisher: Publisher(''),
@@ -38,11 +36,31 @@ class BookDetail extends Book implements IEntities {
         year: Year(''),
         rating: Rating(''),
         description: Description(''),
-        isbn13: Isbn13(''),
-        title: Title(''),
-        subtitle: Subtitle(''),
-        price: Price(''),
-        imageUrl: ImageUrl(''),
-        url: Url(''),
       );
+
+  factory BookDetail.fromBook(
+    Book book, {
+    error,
+    authors,
+    publisher,
+    isbn10,
+    pages,
+    year,
+    rating,
+    description,
+  }) =>
+      BookDetail(
+        book,
+        error: error,
+        authors: authors,
+        publisher: publisher,
+        isbn10: isbn10,
+        pages: pages,
+        year: year,
+        rating: rating,
+        description: description,
+      );
+
+  @override
+  IUniqueId get id => isbn10;
 }
