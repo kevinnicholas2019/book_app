@@ -21,122 +21,102 @@ class BookDetailLoaderWidget extends StatelessWidget {
       children: [
         BlocBuilder<BookBloc, BookState>(
           builder: (context, state) {
+            final Widget chooseWidget;
             if (state is BookDetailLoadInProgress) {
-              return Container(
-                height: 125,
-                margin: const EdgeInsets.only(
-                  top: 38,
-                  bottom: 20,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10).copyWith(
-                    topLeft: Radius.zero,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.175),
-                      spreadRadius: 1,
-                      blurRadius: 10,
-                    ),
-                  ],
-                  color: Colors.white,
-                ),
-                padding: const EdgeInsets.all(15),
-                child: const Center(child: CircularProgressIndicator()),
-              );
-            }
-            if (state is BookDetailLoadFailure) {
-              return RetryWidget(
+              chooseWidget = const Center(child: CircularProgressIndicator());
+            } else if (state is BookDetailLoadFailure) {
+              chooseWidget = RetryWidget(
                 onPressed: () => BlocProvider.of<BookBloc>(context).add(
                   BookDetailPressed(book: state.currentBook!),
                 ),
               );
-            }
-            if (state is BookDetailLoadSuccess) {
+            } else if (state is BookDetailLoadSuccess) {
               final BookDetail bookDetail = state.currentBookDetail;
 
-              return Container(
-                clipBehavior: Clip.none,
-                margin: const EdgeInsets.only(
-                  top: 38,
-                  bottom: 20,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10).copyWith(
-                    topLeft: Radius.zero,
+              chooseWidget = Column(
+                children: [
+                  BookDetailRowWidget(
+                    'Authors',
+                    bookDetail.authors.map((e) => e.value).join(", "),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.175),
-                      spreadRadius: 1,
-                      blurRadius: 10,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  BookDetailRowWidget(
+                    'Publisher',
+                    bookDetail.publisher.value,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  BookDetailRowWidget(
+                    'ISBN10',
+                    bookDetail.isbn10.value,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  BookDetailRowWidget(
+                    'Pages',
+                    bookDetail.pages.value.toString(),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  BookDetailRowWidget(
+                    'Year',
+                    bookDetail.year.value.toString(),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  BookDetailRowWidget(
+                    'Rating',
+                    [
+                      for (var i = 0; i < bookDetail.rating.value; i++) '⭐',
+                      for (var i = 0; i < 5 - bookDetail.rating.value; i++) '⚝',
+                      bookDetail.rating.value > 0
+                          ? ' (${bookDetail.rating.value}.0 rates)'
+                          : ' (No Rate)',
+                    ].join(""),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  BookDetailRowWidget(
+                    'Description',
+                    HtmlCharacterEntities.decode(
+                      bookDetail.description.value,
                     ),
-                  ],
-                  color: Colors.white,
-                ),
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  children: [
-                    BookDetailRowWidget(
-                      'Authors',
-                      bookDetail.authors.map((e) => e.value).join(", "),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BookDetailRowWidget(
-                      'Publisher',
-                      bookDetail.publisher.value,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BookDetailRowWidget(
-                      'ISBN10',
-                      bookDetail.isbn10.value,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BookDetailRowWidget(
-                      'Pages',
-                      bookDetail.pages.value.toString(),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BookDetailRowWidget(
-                      'Year',
-                      bookDetail.year.value.toString(),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BookDetailRowWidget(
-                      'Rating',
-                      [
-                        for (var i = 0; i < bookDetail.rating.value; i++) '⭐',
-                        for (var i = 0; i < 5 - bookDetail.rating.value; i++)
-                          '⚝',
-                        bookDetail.rating.value > 0
-                            ? ' (${bookDetail.rating.value}.0 rates)'
-                            : ' (No Rate)',
-                      ].join(""),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BookDetailRowWidget(
-                      'Description',
-                      HtmlCharacterEntities.decode(
-                        bookDetail.description.value,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               );
+            } else {
+              chooseWidget = const Center(child: Text('Something wrong...'));
             }
-            return const Center(child: Text('Something wrong...'));
+
+            return Container(
+              clipBehavior: Clip.none,
+              margin: const EdgeInsets.only(
+                top: 38,
+                bottom: 20,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10).copyWith(
+                  topLeft: Radius.zero,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.175),
+                    spreadRadius: 1,
+                    blurRadius: 10,
+                  ),
+                ],
+                color: Colors.white,
+              ),
+              padding: const EdgeInsets.all(15),
+              child: chooseWidget,
+            );
           },
         ),
         Container(
