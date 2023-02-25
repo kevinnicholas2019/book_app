@@ -9,6 +9,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class BookApi implements IBookRepository {
+  static final Dio dio = Dio()
+    ..options.headers = {
+      'Content-Type': 'application/json',
+    };
+
   static const String urlRoot = 'https://api.itbook.store/1.0';
   static const Map<String, String> urls = <String, String>{
     'getAllNewBook': '$urlRoot/new',
@@ -19,7 +24,6 @@ class BookApi implements IBookRepository {
   @override
   Future<List<Book>?> getAllNewBook() async {
     try {
-      final dio = Dio();
       final response = await dio.get(urls['getAllNewBook']!);
 
       if (response.statusCode == 200) {
@@ -42,7 +46,6 @@ class BookApi implements IBookRepository {
   @override
   Future<List<Book>?> getBookByBookName(String paramSearch) async {
     try {
-      final dio = Dio();
       final Response<Map<String, dynamic>> response = await dio.get(
           urls['getBookByBookName']!
               .replaceAll("BOOK_NAME_PARAM", paramSearch));
@@ -62,7 +65,6 @@ class BookApi implements IBookRepository {
   @override
   Future<BookDetail?> getDetailBook(String isbn) async {
     try {
-      final dio = Dio();
       final Response<Map<String, dynamic>> response =
           await dio.get(urls['getDetailBook']!.replaceAll("ISBN_PARAM", isbn));
       return BookDetailDto.fromJson(response.data!).toDomainAsBookDetail();

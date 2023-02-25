@@ -36,12 +36,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_bloc: ^8.1.2
   dio: ^5.0.0
-  easy_search_bar: ^2.4.2
   flutter_easyloading: ^3.0.5
   build_runner: ^2.3.3
   cached_network_image: ^3.2.3
   breakpoint: ^1.2.0
   url_launcher: ^6.1.10
+  html_character_entities: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:

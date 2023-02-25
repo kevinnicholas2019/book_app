@@ -38,7 +38,7 @@ class BookDetailDto extends BookDto {
         pages: json['pages'] as String,
         year: json['year'] as String,
         rating: json['rating'] as String,
-        description: json['description'] as String,
+        description: json['desc'] as String,
         title: json['title'] as String,
         subtitle: json['subtitle'] as String,
         isbn13: json['isbn13'] as String,

@@ -1,7 +1,9 @@
+import 'package:book_app/application/books/book_bloc.dart';
 import 'package:book_app/domain/books/book.dart';
 import 'package:book_app/presentation/pages/books/book_detail_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookWidget extends StatelessWidget {
   final Book _book;
@@ -13,13 +15,12 @@ class BookWidget extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       autofocus: true,
-      onTap: () {
+      onTap: () async {
+        BlocProvider.of<BookBloc>(context).add(BookDetailPressed(book: _book));
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BookDetailPageWidget(
-              book: _book,
-            ),
+            builder: (context) => const BookDetailPageWidget(),
           ),
         );
       },
@@ -30,6 +31,7 @@ class BookWidget extends StatelessWidget {
             BoxShadow(
               color: Colors.black12,
               spreadRadius: 1.0,
+              blurRadius: 10,
             ),
           ],
           borderRadius: BorderRadius.circular(10),
