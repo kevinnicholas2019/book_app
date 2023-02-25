@@ -22,6 +22,7 @@ class BookDetailLoaderWidget extends StatelessWidget {
         BlocBuilder<BookBloc, BookState>(
           builder: (context, state) {
             final Widget chooseWidget;
+
             if (state is BookDetailLoadInProgress) {
               chooseWidget = const Center(child: CircularProgressIndicator());
             } else if (state is BookDetailLoadFailure) {
