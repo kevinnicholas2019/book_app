@@ -16,12 +16,20 @@ class BookWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       autofocus: true,
       onTap: () async {
-        BlocProvider.of<BookBloc>(context).add(BookDetailPressed(book: _book));
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const BookDetailPageWidget(),
+        BlocProvider.of<BookBloc>(context).add(
+          BookDetailPressed(
+            book: _book,
           ),
+        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => const BookDetailPageWidget(),
+        //   ),
+        // );
+        Navigator.pushNamed(
+          context,
+          '/book-detail',
         );
       },
       child: Ink(

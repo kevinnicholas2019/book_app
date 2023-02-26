@@ -22,6 +22,7 @@ class BookDetailRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
@@ -33,7 +34,12 @@ class BookDetailRowWidget extends StatelessWidget {
         ),
         const Expanded(
           flex: 1,
-          child: Text(":"),
+          child: Center(
+            child: Text(
+              " : ",
+              style: defaulTextStyle,
+            ),
+          ),
         ),
         Expanded(
           flex: 6,
