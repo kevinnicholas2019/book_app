@@ -9,16 +9,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class BookApi implements IBookRepository {
-  static final Dio dio = Dio()
+  static final Dio _dio = Dio()
     ..options.headers = {
       'Content-Type': 'application/json',
     };
 
-  static const String urlRoot = 'https://api.itbook.store/1.0';
-  static const Map<String, String> urls = <String, String>{
-    'getAllNewBook': '$urlRoot/new',
-    'getBookByBookName': '$urlRoot/search/BOOK_NAME_PARAM',
-    'getDetailBook': '$urlRoot/books/ISBN_PARAM',
+  static const String _urlRoot = 'https://api.itbook.store/1.0';
+  static const Map<String, String> _urls = <String, String>{
+    'getAllNewBook': '$_urlRoot/new',
+    'getBookByBookName': '$_urlRoot/search/BOOK_NAME_PARAM',
+    'getDetailBook': '$_urlRoot/books/ISBN_PARAM',
   };
 
   const BookApi();
@@ -26,7 +26,7 @@ class BookApi implements IBookRepository {
   @override
   Future<List<Book>?> getAllNewBook() async {
     try {
-      final response = await dio.get(urls['getAllNewBook']!);
+      final response = await _dio.get(_urls['getAllNewBook']!);
 
       if (response.statusCode == 200) {
         return ResponseBookDto.fromJson(response.data!)
@@ -48,8 +48,8 @@ class BookApi implements IBookRepository {
   @override
   Future<List<Book>?> getBookByBookName(String paramSearch) async {
     try {
-      final Response<Map<String, dynamic>> response = await dio.get(
-          urls['getBookByBookName']!
+      final Response<Map<String, dynamic>> response = await _dio.get(
+          _urls['getBookByBookName']!
               .replaceAll("BOOK_NAME_PARAM", paramSearch));
       return ResponseBookDto.fromJson(response.data!)
           .books
@@ -67,8 +67,8 @@ class BookApi implements IBookRepository {
   @override
   Future<BookDetail?> getDetailBook(String isbn) async {
     try {
-      final Response<Map<String, dynamic>> response =
-          await dio.get(urls['getDetailBook']!.replaceAll("ISBN_PARAM", isbn));
+      final Response<Map<String, dynamic>> response = await _dio
+          .get(_urls['getDetailBook']!.replaceAll("ISBN_PARAM", isbn));
       return BookDetailDto.fromJson(response.data!).toDomainAsBookDetail();
     } on Exception catch (e) {
       if (kDebugMode) {

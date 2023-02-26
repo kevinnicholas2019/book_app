@@ -1,6 +1,5 @@
 import 'package:book_app/application/books/book_bloc.dart';
 import 'package:book_app/domain/books/book.dart';
-import 'package:book_app/presentation/pages/books/book_detail_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
