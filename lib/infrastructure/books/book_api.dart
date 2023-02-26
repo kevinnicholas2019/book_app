@@ -21,6 +21,8 @@ class BookApi implements IBookRepository {
     'getDetailBook': '$urlRoot/books/ISBN_PARAM',
   };
 
+  const BookApi();
+
   @override
   Future<List<Book>?> getAllNewBook() async {
     try {
