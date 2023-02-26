@@ -21,12 +21,6 @@ class BookWidget extends StatelessWidget {
             book: _book,
           ),
         );
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => const BookDetailPageWidget(),
-        //   ),
-        // );
         Navigator.pushNamed(
           context,
           '/book-detail',
