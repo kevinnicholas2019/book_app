@@ -121,7 +121,7 @@ class BookDetailLoaderWidget extends StatelessWidget {
           },
         ),
         Container(
-          width: 135,
+          width: 138,
           alignment: Alignment.topLeft,
           padding: const EdgeInsets.symmetric(
             horizontal: 15.0,
@@ -151,9 +151,9 @@ class BookDetailLoaderWidget extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 35),
+          margin: const EdgeInsets.only(top: 34),
           color: Colors.lightGreen.withOpacity(0.85),
-          width: 135 + 1,
+          width: 135 + 3,
           height: 3,
         ),
       ],
